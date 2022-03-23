@@ -39,22 +39,11 @@ currentTime.innerHTML = `${day}, ${date} ${month} ${hour}:${minute}`;
 let h3 = document.querySelector("#changeDate");
 h3.innerHTML = `${day}`;
 //Display city name//
-function where(event) {
-  event.preventDefault();
-  let input = document.querySelector("#cityName-input");
-  let output = document.querySelector("#cityNameTag");
-  let whereTown = input.value;
-  output.innerHTML = input.value;
-  let apiKey = "b81bc829f24d038a00971d55be0bd38d";
-  let unit = "metric";
-  let apiURL1 = `https://api.openweathermap.org/data/2.5/weather?q=${whereTown}&appid=${apiKey}&units=${unit}`;
-  axios.get(apiURL1).then(showNewTemp);
-}
-let city = document.querySelector("form");
-city.addEventListener("submit", where);
 //Challenge 3//
 //Display real-time temp with Axios//
 function showNewTemp(response) {
+  let output = document.querySelector("#cityNameTag");
+  output.innerHTML = response.data.name;
   let realTemp = document.querySelector("#realtemp");
   realTemp.innerHTML = `${response.data.main.temp}°C`;
   let realHumid = document.querySelector("#realhumid");
@@ -64,3 +53,14 @@ function showNewTemp(response) {
   let realStatus = document.querySelector("#saying");
   realStatus.innerHTML = `${response.data.weather[0].main}`;
 }
+function where(event) {
+  event.preventDefault();
+  let input = document.querySelector("#cityName-input");
+  let whereTown = input.value;
+  let apiKey = "b81bc829f24d038a00971d55be0bd38d";
+  let unit = "metric";
+  let apiURL1 = `https://api.openweathermap.org/data/2.5/weather?q=${whereTown}&appid=${apiKey}&units=${unit}`;
+  axios.get(apiURL1).then(showNewTemp);
+}
+let city = document.querySelector("form");
+city.addEventListener("submit", where);
